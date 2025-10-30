@@ -15,13 +15,13 @@ public class NetworkService {
     private Main plugin;
     private ServerSocket serverSocket;
     private boolean running = false;
-    private int port; // 从配置中读取端口
+    private int port; 
     private ExecutorService executorService;
 
     public NetworkService(Main plugin) {
         this.plugin = plugin;
         this.executorService = Executors.newCachedThreadPool();
-        this.port = plugin.getConfig().getInt("network.port", 25570); // 默认值为 25570
+        this.port = plugin.getConfig().getInt("network.port", 25570); 
     }
 
     public void start() {
@@ -73,26 +73,22 @@ public class NetworkService {
                     String address = parts[2];
                     int port = Integer.parseInt(parts[3]);
 
-                    // 在主线程中添加服务器
                     plugin.getProxy().getScheduler().schedule(plugin, () -> {
                         plugin.addServer(serverName, address, port);
-                        plugin.getLogger().info("成功添加服务器：" + serverName);
                     }, 0, TimeUnit.MILLISECONDS);
 
-                    out.println("成功添加服务器：" + serverName);
+                    out.println(serverName);
                 } else if ("remove".equalsIgnoreCase(action)) {
-                    // 在主线程中移除服务器
                     plugin.getProxy().getScheduler().schedule(plugin, () -> {
                         plugin.removeServer(serverName);
-                        plugin.getLogger().info("成功移除服务器：" + serverName);
+                        plugin.getLogger().info("成功移除：" + serverName);
                     }, 0, TimeUnit.MILLISECONDS);
 
-                    out.println("成功移除服务器：" + serverName);
+                    out.println("成功移除：" + serverName);
                 } else {
-                    out.println("无效的请求格式。");
+                    out.println("無效的格式。");
                 }
             } else {
-                out.println("无效的请求。");
             }
 
         } catch (IOException e) {
@@ -106,3 +102,4 @@ public class NetworkService {
         }
     }
 }
+
