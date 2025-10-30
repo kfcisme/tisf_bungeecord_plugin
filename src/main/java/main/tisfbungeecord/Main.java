@@ -18,17 +18,14 @@ public class Main extends Plugin {
 
     @Override
     public void onEnable() {
-        // 加载配置文件
         loadConfig();
 
-        // 启动网络服务，接受来自 Spigot 插件的请求
         networkService = new NetworkService(this);
         networkService.start();
     }
 
     @Override
     public void onDisable() {
-        // 停止网络服务
         if (networkService != null) {
             networkService.shutdown();
         }
@@ -53,7 +50,6 @@ public class Main extends Plugin {
         File configFile = new File(getDataFolder(), "config.yml");
         if (!configFile.exists()) {
             try {
-                // 从插件资源中保存默认的 config.yml
                 saveDefaultConfig();
             } catch (Exception e) {
                 e.printStackTrace();
